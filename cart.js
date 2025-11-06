@@ -105,6 +105,7 @@ function updateQuantity(id, delta) {
   item.quantity += delta;
   if (item.quantity <= 0) {
     cart = cart.filter(i => i.id !== id);
+    showToast('Item removed from cart ❌', 'error');
   }
 
   saveCart(cart);
@@ -116,6 +117,7 @@ function removeItem(id) {
   let cart = getCart().filter(i => i.id !== id);
   saveCart(cart);
   renderCart();
+  showToast('Item removed from cart ❌', 'error');
 }
 
 // Save for Later
@@ -132,6 +134,7 @@ function saveForLater(id) {
   saveCart(cart);
   saveSavedItems(saved);
   renderCart();
+  showToast('Item saved for later 📦', 'info');
 }
 
 // Move Back to Cart
@@ -148,6 +151,7 @@ function moveToCart(id) {
   saveCart(cart);
   saveSavedItems(saved);
   renderCart();
+  showToast('Item moved back to cart 🛒', 'success');
 }
 
 // Remove Saved Item
@@ -155,6 +159,7 @@ function removeSaved(id) {
   let saved = getSaved().filter(i => i.id !== id);
   saveSavedItems(saved);
   renderCart();
+  showToast('Item removed from saved list 🗑️', 'error');
 }
 
 // Coupon Apply
@@ -164,24 +169,49 @@ document.getElementById('apply-coupon').addEventListener('click', () => {
   const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   let discount = 0;
-  if (code === 'STYLE10') discount = Math.floor(subtotal * 0.1);
-  else if (code === 'STYLE20' && subtotal >= 2000) discount = Math.floor(subtotal * 0.2);
-  else return alert('❌ Invalid or ineligible coupon code.');
+  if (code === 'STYLE10') {
+    discount = Math.floor(subtotal * 0.1);
+    showToast('🎉 Coupon STYLE10 applied (10% off)', 'info');
+  } else if (code === 'STYLE20' && subtotal >= 2000) {
+    discount = Math.floor(subtotal * 0.2);
+    showToast('💸 Coupon STYLE20 applied (20% off)', 'info');
+  } else {
+    showToast('❌ Invalid or ineligible coupon code.', 'error');
+    return;
+  }
 
   localStorage.setItem('discount', discount);
-  alert(`🎉 Coupon applied! You saved $${discount}.`);
   renderCart();
 });
 
 // Checkout
 document.getElementById('checkout-btn').addEventListener('click', () => {
   const cart = getCart();
-  if (cart.length === 0) return alert('Your cart is empty.');
+  if (cart.length === 0) {
+    showToast('Your cart is empty 🛒', 'error');
+    return;
+  }
 
   localStorage.removeItem('cartItems');
   localStorage.removeItem('discount');
-  alert('✅ Order placed successfully!');
+  showToast('✅ Order placed successfully!', 'success');
   renderCart();
 });
 
+// Initial Render
 document.addEventListener('DOMContentLoaded', renderCart);
+
+// === Toast Notification Utility ===
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  setTimeout(() => toast.classList.add('show'), 50);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  }, 3000);
+}

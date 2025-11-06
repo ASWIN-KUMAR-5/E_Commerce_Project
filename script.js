@@ -1,5 +1,4 @@
-
-// Slider functionality
+// === Slider functionality ===
 const slides = document.querySelectorAll('.slide');
 const dots = document.querySelectorAll('.slider-dot');
 const prevBtn = document.querySelector('.prev-btn');
@@ -9,50 +8,27 @@ let currentSlide = 0;
 function showSlide(n) {
     slides.forEach(slide => slide.classList.remove('active'));
     dots.forEach(dot => dot.classList.remove('active'));
-
     currentSlide = (n + slides.length) % slides.length;
-
     slides[currentSlide].classList.add('active');
     dots[currentSlide].classList.add('active');
 }
 
-function nextSlide() {
-    showSlide(currentSlide + 1);
-}
+function nextSlide() { showSlide(currentSlide + 1); }
+function prevSlide() { showSlide(currentSlide - 1); }
 
-function prevSlide() {
-    showSlide(currentSlide - 1);
-}
-
-// Auto slide every 5 seconds
 let slideInterval = setInterval(nextSlide, 5000);
-
-// Reset interval when user interacts with slider
 function resetInterval() {
     clearInterval(slideInterval);
     slideInterval = setInterval(nextSlide, 5000);
 }
-
-// Dot navigation
-dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-        showSlide(index);
-        resetInterval();
-    });
-});
-
-// Button navigation
-prevBtn.addEventListener('click', () => {
-    prevSlide();
+dots.forEach((dot, index) => dot.addEventListener('click', () => {
+    showSlide(index);
     resetInterval();
-});
+}));
+prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
+nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
 
-nextBtn.addEventListener('click', () => {
-    nextSlide();
-    resetInterval();
-});
-
-// Collection Sliders
+// === Collection Sliders ===
 const womenTrack = document.getElementById('women-track');
 const menTrack = document.getElementById('men-track');
 const kidsTrack = document.getElementById('kids-track');
@@ -64,9 +40,7 @@ const menNext = menTrack.parentElement.querySelector('.collection-next');
 const kidsPrev = kidsTrack.parentElement.querySelector('.collection-prev');
 const kidsNext = kidsTrack.parentElement.querySelector('.collection-next');
 
-let womenPosition = 0;
-let menPosition = 0;
-let kidsPosition = 0;
+let womenPosition = 0, menPosition = 0, kidsPosition = 0;
 
 function moveSlider(track, direction, position) {
     const itemWidth = track.querySelector('.collection-item').offsetWidth;
@@ -75,245 +49,73 @@ function moveSlider(track, direction, position) {
 
     if (direction === 'next') {
         position -= itemWidth;
-        if (position < -(contentWidth - trackWidth)) {
-            position = 0;
-        }
+        if (position < -(contentWidth - trackWidth)) position = 0;
     } else {
         position += itemWidth;
-        if (position > 0) {
-            position = -(contentWidth - trackWidth);
-        }
+        if (position > 0) position = -(contentWidth - trackWidth);
     }
-
     track.style.transform = `translateX(${position}px)`;
     return position;
 }
 
-womenPrev.addEventListener('click', () => {
-    womenPosition = moveSlider(womenTrack, 'prev', womenPosition);
-});
+womenPrev.addEventListener('click', () => womenPosition = moveSlider(womenTrack, 'prev', womenPosition));
+womenNext.addEventListener('click', () => womenPosition = moveSlider(womenTrack, 'next', womenPosition));
+menPrev.addEventListener('click', () => menPosition = moveSlider(menTrack, 'prev', menPosition));
+menNext.addEventListener('click', () => menPosition = moveSlider(menTrack, 'next', menPosition));
+kidsPrev.addEventListener('click', () => kidsPosition = moveSlider(kidsTrack, 'prev', kidsPosition));
+kidsNext.addEventListener('click', () => kidsPosition = moveSlider(kidsTrack, 'next', kidsPosition));
 
-womenNext.addEventListener('click', () => {
-    womenPosition = moveSlider(womenTrack, 'next', womenPosition);
-});
+// === Toast Notification Utility ===
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    container.appendChild(toast);
 
-menPrev.addEventListener('click', () => {
-    menPosition = moveSlider(menTrack, 'prev', menPosition);
-});
-
-menNext.addEventListener('click', () => {
-    menPosition = moveSlider(menTrack, 'next', menPosition);
-});
-
-kidsPrev.addEventListener('click', () => {
-    kidsPosition = moveSlider(kidsTrack, 'prev', kidsPosition);
-});
-
-kidsNext.addEventListener('click', () => {
-    kidsPosition = moveSlider(kidsTrack, 'next', kidsPosition);
-});
-
-// Modal functionality
-const loginModal = document.getElementById('login-modal');
-const aboutModal = document.getElementById('about-modal');
-const userBtn = document.getElementById('user-btn');
-const aboutBtn = document.getElementById('about-btn');
-const closeModal = document.querySelectorAll('.close-modal');
-const tabs = document.querySelectorAll('.tab');
-const switchTabs = document.querySelectorAll('.switch-tab');
-
-userBtn.addEventListener('click', () => {
-    loginModal.style.display = 'flex';
-});
-
-aboutBtn.addEventListener('click', () => {
-    aboutModal.style.display = 'flex';
-});
-
-closeModal.forEach(btn => {
-    btn.addEventListener('click', () => {
-        loginModal.style.display = 'none';
-        aboutModal.style.display = 'none';
-    });
-});
-
-window.addEventListener('click', (e) => {
-    if (e.target === loginModal) {
-        loginModal.style.display = 'none';
-    }
-    if (e.target === aboutModal) {
-        aboutModal.style.display = 'none';
-    }
-});
-
-// Tab switching
-tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        const tabId = tab.getAttribute('data-tab');
-
-        tabs.forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-        tab.classList.add('active');
-        document.getElementById(`${tabId}-tab`).classList.add('active');
-    });
-});
-
-switchTabs.forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const tabId = link.getAttribute('data-tab');
-
-        tabs.forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-
-        document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
-        document.getElementById(`${tabId}-tab`).classList.add('active');
-    });
-});
-
-// Countdown timer
-function updateTimer() {
-    const days = document.getElementById('days');
-    const hours = document.getElementById('hours');
-    const minutes = document.getElementById('minutes');
-    const seconds = document.getElementById('seconds');
-
-    let dayValue = parseInt(days.textContent);
-    let hourValue = parseInt(hours.textContent);
-    let minuteValue = parseInt(minutes.textContent);
-    let secondValue = parseInt(seconds.textContent);
-
-    secondValue--;
-
-    if (secondValue < 0) {
-        secondValue = 59;
-        minuteValue--;
-
-        if (minuteValue < 0) {
-            minuteValue = 59;
-            hourValue--;
-
-            if (hourValue < 0) {
-                hourValue = 23;
-                dayValue--;
-
-                if (dayValue < 0) {
-                    // Reset timer when it reaches zero
-                    dayValue = 2;
-                    hourValue = 12;
-                    minuteValue = 45;
-                    secondValue = 30;
-                }
-            }
-        }
-    }
-
-    days.textContent = dayValue.toString().padStart(2, '0');
-    hours.textContent = hourValue.toString().padStart(2, '0');
-    minutes.textContent = minuteValue.toString().padStart(2, '0');
-    seconds.textContent = secondValue.toString().padStart(2, '0');
+    setTimeout(() => toast.classList.add('show'), 50);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+    }, 3000);
 }
 
-setInterval(updateTimer, 1000);
-
-// === Add to Cart System ===
-const addToCartButtons = document.querySelectorAll(".add-to-cart");
-const cartCountEl = document.querySelector(".cart-count");
-
-function getCart() {
-    return JSON.parse(localStorage.getItem("cartItems")) || [];
-}
-
-function saveCart(cart) {
-    localStorage.setItem("cartItems", JSON.stringify(cart));
-}
-
+// === Update Cart Count ===
 function updateCartCount() {
-    const cart = getCart();
+    const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
     const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    if (cartCountEl) cartCountEl.textContent = totalItems;
+    const cartCountEl = document.querySelector('.cart-count');
+    if (cartCountEl) {
+        cartCountEl.textContent = totalItems;
+        cartCountEl.classList.add('cart-bounce');
+        setTimeout(() => cartCountEl.classList.remove('cart-bounce'), 500);
+    }
 }
 
-// Add item to cart
-addToCartButtons.forEach((button, index) => {
-    button.addEventListener("click", () => {
-        const productCard = button.closest(".product-card");
+// === Add to Cart ===
+document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', () => {
+        const productCard = button.closest('.product-card');
+        if (!productCard) return;
+
         const product = {
-            id: `p${index + 1}`,
-            name: productCard.querySelector(".product-title").textContent,
-            price: parseFloat(
-                productCard.querySelector(".current-price").textContent.replace("$", "")
-            ),
-            image: productCard.querySelector("img").src,
-            quantity: 1,
+            id: productCard.querySelector('.product-title').textContent.replace(/\s+/g, '-').toLowerCase(),
+            name: productCard.querySelector('.product-title').textContent.trim(),
+            price: parseFloat(productCard.querySelector('.current-price').textContent.replace('$', '').trim()),
+            image: productCard.querySelector('img').src,
+            quantity: 1
         };
 
-        let cart = getCart();
-        const existing = cart.find((i) => i.id === product.id);
+        let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+        const existing = cart.find(item => item.id === product.id);
+        if (existing) existing.quantity++;
+        else cart.push(product);
 
-        if (existing) {
-            existing.quantity++;
-        } else {
-            cart.push(product);
-        }
-
-        saveCart(cart);
+        localStorage.setItem('cartItems', JSON.stringify(cart));
         updateCartCount();
-
-        // Button animation feedback
-        button.textContent = "Added!";
-        button.style.backgroundColor = "var(--success)";
-        setTimeout(() => {
-            button.textContent = "Add to Cart";
-            button.style.backgroundColor = "";
-        }, 1500);
+        showToast(`${product.name} added to cart 🛒`);
     });
 });
 
-// Update count on load
-document.addEventListener("DOMContentLoaded", updateCartCount);
-window.addEventListener("storage", updateCartCount);
-
-// === Mini Cart Dropdown ===
-const miniCart = document.getElementById('mini-cart');
-const cartBtn = document.getElementById('cart-btn');
-
-function renderMiniCart() {
-    const miniCartItemsDiv = miniCart.querySelector('.mini-cart-items');
-    const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
-
-    if (cart.length === 0) {
-        miniCartItemsDiv.innerHTML = `<p style="text-align:center;">Your cart is empty.</p>`;
-        return;
-    }
-
-    // Show only latest 3 items
-    const latest = cart.slice(-3).reverse();
-
-    miniCartItemsDiv.innerHTML = latest.map(item => `
-    <div class="mini-cart-item">
-      <img src="${item.image}" alt="${item.name}">
-      <div>
-        <h4>${item.name}</h4>
-        <p>$${item.price.toFixed(2)} × ${item.quantity}</p>
-      </div>
-    </div>
-  `).join('');
-}
-
-// Show/Hide on hover
-cartBtn.addEventListener('mouseenter', () => {
-    renderMiniCart();
-    miniCart.classList.remove('hidden');
-});
-cartBtn.addEventListener('mouseleave', () => {
-    setTimeout(() => miniCart.classList.add('hidden'), 400);
-});
-miniCart.addEventListener('mouseenter', () => {
-    miniCart.classList.remove('hidden');
-});
-miniCart.addEventListener('mouseleave', () => {
-    miniCart.classList.add('hidden');
-});
-
+// === Initialize Cart Count on Page Load ===
+document.addEventListener('DOMContentLoaded', updateCartCount);

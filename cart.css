@@ -38,6 +38,8 @@ header .logo h1 {
     font-weight: 700;
     background: linear-gradient(45deg, var(--primary), #ff6b9d);
     -webkit-background-clip: text;
+    background-clip: text;
+
     -webkit-text-fill-color: transparent;
 }
 
@@ -210,44 +212,61 @@ header .logo h1 {
 
 /* === Coupon & Shipping Section === */
 .coupon-section {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
 #coupon-input {
-  flex: 1;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
 #apply-coupon {
-  background: linear-gradient(45deg, var(--primary), #ff6b9d);
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: var(--transition);
+    background: linear-gradient(45deg, var(--primary), #ff6b9d);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: var(--transition);
 }
 
 #apply-coupon:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(232,62,140,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(232, 62, 140, 0.3);
 }
 
-.cart-summary p, .cart-summary h3 {
-  display: flex;
-  justify-content: space-between;
-  font-size: 16px;
-  margin: 5px 0;
+.cart-summary p,
+.cart-summary h3 {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    margin: 5px 0;
 }
 
 .cart-summary h3 {
-  font-size: 20px;
-  border-top: 1px solid #eee;
-  padding-top: 10px;
-  color: var(--primary);
+    font-size: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    color: var(--primary);
+}
+
+.save-btn, .move-btn {
+  background: #ffc107;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  color: #212529;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.save-btn:hover, .move-btn:hover {
+  background: #e0a800;
+  color: #fff;
 }

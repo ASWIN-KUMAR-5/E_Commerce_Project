@@ -222,55 +222,98 @@ const addToCartButtons = document.querySelectorAll(".add-to-cart");
 const cartCountEl = document.querySelector(".cart-count");
 
 function getCart() {
-  return JSON.parse(localStorage.getItem("cartItems")) || [];
+    return JSON.parse(localStorage.getItem("cartItems")) || [];
 }
 
 function saveCart(cart) {
-  localStorage.setItem("cartItems", JSON.stringify(cart));
+    localStorage.setItem("cartItems", JSON.stringify(cart));
 }
 
 function updateCartCount() {
-  const cart = getCart();
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  if (cartCountEl) cartCountEl.textContent = totalItems;
+    const cart = getCart();
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    if (cartCountEl) cartCountEl.textContent = totalItems;
 }
 
 // Add item to cart
 addToCartButtons.forEach((button, index) => {
-  button.addEventListener("click", () => {
-    const productCard = button.closest(".product-card");
-    const product = {
-      id: `p${index + 1}`,
-      name: productCard.querySelector(".product-title").textContent,
-      price: parseFloat(
-        productCard.querySelector(".current-price").textContent.replace("$", "")
-      ),
-      image: productCard.querySelector("img").src,
-      quantity: 1,
-    };
+    button.addEventListener("click", () => {
+        const productCard = button.closest(".product-card");
+        const product = {
+            id: `p${index + 1}`,
+            name: productCard.querySelector(".product-title").textContent,
+            price: parseFloat(
+                productCard.querySelector(".current-price").textContent.replace("$", "")
+            ),
+            image: productCard.querySelector("img").src,
+            quantity: 1,
+        };
 
-    let cart = getCart();
-    const existing = cart.find((i) => i.id === product.id);
+        let cart = getCart();
+        const existing = cart.find((i) => i.id === product.id);
 
-    if (existing) {
-      existing.quantity++;
-    } else {
-      cart.push(product);
-    }
+        if (existing) {
+            existing.quantity++;
+        } else {
+            cart.push(product);
+        }
 
-    saveCart(cart);
-    updateCartCount();
+        saveCart(cart);
+        updateCartCount();
 
-    // Button animation feedback
-    button.textContent = "Added!";
-    button.style.backgroundColor = "var(--success)";
-    setTimeout(() => {
-      button.textContent = "Add to Cart";
-      button.style.backgroundColor = "";
-    }, 1500);
-  });
+        // Button animation feedback
+        button.textContent = "Added!";
+        button.style.backgroundColor = "var(--success)";
+        setTimeout(() => {
+            button.textContent = "Add to Cart";
+            button.style.backgroundColor = "";
+        }, 1500);
+    });
 });
 
 // Update count on load
 document.addEventListener("DOMContentLoaded", updateCartCount);
 window.addEventListener("storage", updateCartCount);
+
+// === Mini Cart Dropdown ===
+const miniCart = document.getElementById('mini-cart');
+const cartBtn = document.getElementById('cart-btn');
+
+function renderMiniCart() {
+    const miniCartItemsDiv = miniCart.querySelector('.mini-cart-items');
+    const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+    if (cart.length === 0) {
+        miniCartItemsDiv.innerHTML = `<p style="text-align:center;">Your cart is empty.</p>`;
+        return;
+    }
+
+    // Show only latest 3 items
+    const latest = cart.slice(-3).reverse();
+
+    miniCartItemsDiv.innerHTML = latest.map(item => `
+    <div class="mini-cart-item">
+      <img src="${item.image}" alt="${item.name}">
+      <div>
+        <h4>${item.name}</h4>
+        <p>$${item.price.toFixed(2)} × ${item.quantity}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Show/Hide on hover
+cartBtn.addEventListener('mouseenter', () => {
+    renderMiniCart();
+    miniCart.classList.remove('hidden');
+});
+cartBtn.addEventListener('mouseleave', () => {
+    setTimeout(() => miniCart.classList.add('hidden'), 400);
+});
+miniCart.addEventListener('mouseenter', () => {
+    miniCart.classList.remove('hidden');
+});
+miniCart.addEventListener('mouseleave', () => {
+    miniCart.classList.add('hidden');
+});
+

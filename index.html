@@ -28,11 +28,21 @@
                         <i class="fas fa-user"></i>
                         <span>Login</span>
                     </button>
+                    <!-- Cart Button -->
                     <a href="cart.html" class="action-btn cart-btn" id="cart-btn">
                         <i class="fas fa-shopping-bag"></i>
                         <span>Cart</span>
                         <span class="cart-count">0</span>
                     </a>
+
+                    <!-- 🧩 Mini Cart Dropdown -->
+                    <div id="mini-cart" class="mini-cart hidden">
+                        <div class="mini-cart-items"></div>
+                        <div class="mini-cart-footer">
+                            <button onclick="window.location.href='cart.html'">View Cart</button>
+                        </div>
+                    </div>
+
 
                     <button class="action-btn orders-btn" id="orders-btn">
                         <i class="fas fa-box"></i>

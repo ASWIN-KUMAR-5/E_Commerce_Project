@@ -255,18 +255,20 @@ header .logo h1 {
     color: var(--primary);
 }
 
-.save-btn, .move-btn {
-  background: #ffc107;
-  border: none;
-  padding: 8px 10px;
-  border-radius: 5px;
-  color: #212529;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.3s ease;
+.save-btn,
+.move-btn {
+    background: #ffc107;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    color: #212529;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s ease;
 }
 
-.save-btn:hover, .move-btn:hover {
-  background: #e0a800;
-  color: #fff;
+.save-btn:hover,
+.move-btn:hover {
+    background: #e0a800;
+    color: #fff;
 }

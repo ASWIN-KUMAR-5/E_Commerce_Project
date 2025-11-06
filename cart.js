@@ -96,7 +96,7 @@ function renderCart() {
   totalEl.textContent = `$${total.toFixed(2)}`;
 }
 
-// Quantity Update
+// Quantity Update (with bump effect)
 function updateQuantity(id, delta) {
   let cart = getCart();
   const item = cart.find(i => i.id === id);
@@ -104,16 +104,44 @@ function updateQuantity(id, delta) {
 
   item.quantity += delta;
   if (item.quantity <= 0) {
+    // animate out then remove
+    const row = document.querySelector(`.cart-item[data-id="${id}"]`);
+    if (row) {
+      row.classList.add('slide-out');
+      setTimeout(() => {
+        cart = cart.filter(i => i.id !== id);
+        saveCart(cart);
+        renderCart();
+      }, 160);
+      return;
+    }
     cart = cart.filter(i => i.id !== id);
-    showToast('Item removed from cart ❌', 'error');
+  } else {
+    // quantity bump animation
+    saveCart(cart);
+    const row = document.querySelector(`.cart-item[data-id="${id}"] .quantity span`);
+    if (row) {
+      row.classList.add('qty-bump');
+      setTimeout(()=>row.classList.remove('qty-bump'), 220);
+    }
   }
-
   saveCart(cart);
   renderCart();
 }
 
-// Remove Item
+// Remove Item (with slide-out)
 function removeItem(id) {
+  const row = document.querySelector(`.cart-item[data-id="${id}"]`);
+  if (row) {
+    row.classList.add('slide-out');
+    setTimeout(() => {
+      let cart = getCart().filter(i => i.id !== id);
+      saveCart(cart);
+      renderCart();
+      showToast('Item removed from cart ❌', 'error');
+    }, 160);
+    return;
+  }
   let cart = getCart().filter(i => i.id !== id);
   saveCart(cart);
   renderCart();
@@ -124,42 +152,53 @@ function removeItem(id) {
 function saveForLater(id) {
   let cart = getCart();
   let saved = getSaved();
-
   const item = cart.find(i => i.id === id);
   if (!item) return;
 
-  saved.push(item);
-  cart = cart.filter(i => i.id !== id);
+  const row = document.querySelector(`.cart-item[data-id="${id}"]`);
+  if (row) row.classList.add('slide-out');
 
-  saveCart(cart);
-  saveSavedItems(saved);
-  renderCart();
-  showToast('Item saved for later 📦', 'info');
+  setTimeout(() => {
+    saved.push(item);
+    cart = cart.filter(i => i.id !== id);
+    saveCart(cart);
+    saveSavedItems(saved);
+    renderCart();
+    showToast('Item saved for later 📦', 'info');
+  }, 160);
 }
 
 // Move Back to Cart
 function moveToCart(id) {
   let cart = getCart();
   let saved = getSaved();
-
   const item = saved.find(i => i.id === id);
   if (!item) return;
 
-  cart.push(item);
-  saved = saved.filter(i => i.id !== id);
+  const row = document.querySelector(`.cart-item.saved-item[data-id="${id}"]`);
+  if (row) row.classList.add('slide-out');
 
-  saveCart(cart);
-  saveSavedItems(saved);
-  renderCart();
-  showToast('Item moved back to cart 🛒', 'success');
+  setTimeout(() => {
+    cart.push(item);
+    saved = saved.filter(i => i.id !== id);
+    saveCart(cart);
+    saveSavedItems(saved);
+    renderCart();
+    showToast('Item moved back to cart 🛒', 'success');
+  }, 160);
 }
 
 // Remove Saved Item
 function removeSaved(id) {
-  let saved = getSaved().filter(i => i.id !== id);
-  saveSavedItems(saved);
-  renderCart();
-  showToast('Item removed from saved list 🗑️', 'error');
+  const row = document.querySelector(`.cart-item.saved-item[data-id="${id}"]`);
+  if (row) row.classList.add('slide-out');
+
+  setTimeout(() => {
+    let saved = getSaved().filter(i => i.id !== id);
+    saveSavedItems(saved);
+    renderCart();
+    showToast('Item removed from saved list 🗑️', 'error');
+  }, 160);
 }
 
 // Coupon Apply

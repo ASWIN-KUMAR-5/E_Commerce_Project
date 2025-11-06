@@ -1,121 +1,133 @@
-// === Slider functionality ===
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelectorAll('.slider-dot');
-const prevBtn = document.querySelector('.prev-btn');
-const nextBtn = document.querySelector('.next-btn');
-let currentSlide = 0;
+// === StyleHub Frontend Script ===
+// Includes: Add to Cart, Mini Cart, Toasts, Cart Count
 
-function showSlide(n) {
-    slides.forEach(slide => slide.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
-    currentSlide = (n + slides.length) % slides.length;
-    slides[currentSlide].classList.add('active');
-    dots[currentSlide].classList.add('active');
+// === Utility Functions ===
+function getCartLS() {
+  return JSON.parse(localStorage.getItem('cartItems')) || [];
 }
 
-function nextSlide() { showSlide(currentSlide + 1); }
-function prevSlide() { showSlide(currentSlide - 1); }
-
-let slideInterval = setInterval(nextSlide, 5000);
-function resetInterval() {
-    clearInterval(slideInterval);
-    slideInterval = setInterval(nextSlide, 5000);
-}
-dots.forEach((dot, index) => dot.addEventListener('click', () => {
-    showSlide(index);
-    resetInterval();
-}));
-prevBtn.addEventListener('click', () => { prevSlide(); resetInterval(); });
-nextBtn.addEventListener('click', () => { nextSlide(); resetInterval(); });
-
-// === Collection Sliders ===
-const womenTrack = document.getElementById('women-track');
-const menTrack = document.getElementById('men-track');
-const kidsTrack = document.getElementById('kids-track');
-
-const womenPrev = womenTrack.parentElement.querySelector('.collection-prev');
-const womenNext = womenTrack.parentElement.querySelector('.collection-next');
-const menPrev = menTrack.parentElement.querySelector('.collection-prev');
-const menNext = menTrack.parentElement.querySelector('.collection-next');
-const kidsPrev = kidsTrack.parentElement.querySelector('.collection-prev');
-const kidsNext = kidsTrack.parentElement.querySelector('.collection-next');
-
-let womenPosition = 0, menPosition = 0, kidsPosition = 0;
-
-function moveSlider(track, direction, position) {
-    const itemWidth = track.querySelector('.collection-item').offsetWidth;
-    const trackWidth = track.offsetWidth;
-    const contentWidth = track.scrollWidth;
-
-    if (direction === 'next') {
-        position -= itemWidth;
-        if (position < -(contentWidth - trackWidth)) position = 0;
-    } else {
-        position += itemWidth;
-        if (position > 0) position = -(contentWidth - trackWidth);
-    }
-    track.style.transform = `translateX(${position}px)`;
-    return position;
+function saveCartLS(cart) {
+  localStorage.setItem('cartItems', JSON.stringify(cart));
 }
 
-womenPrev.addEventListener('click', () => womenPosition = moveSlider(womenTrack, 'prev', womenPosition));
-womenNext.addEventListener('click', () => womenPosition = moveSlider(womenTrack, 'next', womenPosition));
-menPrev.addEventListener('click', () => menPosition = moveSlider(menTrack, 'prev', menPosition));
-menNext.addEventListener('click', () => menPosition = moveSlider(menTrack, 'next', menPosition));
-kidsPrev.addEventListener('click', () => kidsPosition = moveSlider(kidsTrack, 'prev', kidsPosition));
-kidsNext.addEventListener('click', () => kidsPosition = moveSlider(kidsTrack, 'next', kidsPosition));
-
-// === Toast Notification Utility ===
+// === Toast Utility ===
 function showToast(message, type = 'success') {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.textContent = message;
-    container.appendChild(toast);
+  const container = document.getElementById('toast-container');
+  if (!container) return;
 
-    setTimeout(() => toast.classList.add('show'), 50);
-    setTimeout(() => {
-        toast.classList.remove('show');
-        setTimeout(() => toast.remove(), 400);
-    }, 3000);
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  container.appendChild(toast);
+
+  setTimeout(() => toast.classList.add('show'), 50);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  }, 3000);
 }
 
-// === Update Cart Count ===
+// === Cart Count Badge ===
 function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem('cartItems')) || [];
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const cartCountEl = document.querySelector('.cart-count');
-    if (cartCountEl) {
-        cartCountEl.textContent = totalItems;
-        cartCountEl.classList.add('cart-bounce');
-        setTimeout(() => cartCountEl.classList.remove('cart-bounce'), 500);
-    }
+  const cart = getCartLS();
+  const total = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  const badge = document.querySelector('.cart-count');
+
+  if (badge) {
+    badge.textContent = total;
+    badge.classList.add('cart-bounce');
+    setTimeout(() => badge.classList.remove('cart-bounce'), 400);
+  }
 }
 
 // === Add to Cart ===
-document.querySelectorAll('.add-to-cart').forEach(button => {
-    button.addEventListener('click', () => {
-        const productCard = button.closest('.product-card');
-        if (!productCard) return;
+function addToCart(item) {
+  let cart = getCartLS();
+  const existing = cart.find(p => p.id === item.id);
 
-        const product = {
-            id: productCard.querySelector('.product-title').textContent.replace(/\s+/g, '-').toLowerCase(),
-            name: productCard.querySelector('.product-title').textContent.trim(),
-            price: parseFloat(productCard.querySelector('.current-price').textContent.replace('$', '').trim()),
-            image: productCard.querySelector('img').src,
-            quantity: 1
-        };
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({ ...item, quantity: 1 });
+  }
 
-        let cart = JSON.parse(localStorage.getItem('cartItems')) || [];
-        const existing = cart.find(item => item.id === product.id);
-        if (existing) existing.quantity++;
-        else cart.push(product);
+  saveCartLS(cart);
+  updateCartCount();
+  renderMiniCart();
+  showToast(`${item.name} added to cart 🛒`, 'success');
+}
 
-        localStorage.setItem('cartItems', JSON.stringify(cart));
-        updateCartCount();
-        showToast(`${product.name} added to cart 🛒`);
+// === Mini Cart Dropdown ===
+function renderMiniCart() {
+  const wrap = document.getElementById('mini-cart-items');
+  if (!wrap) return;
+
+  const cart = getCartLS();
+  const lastThree = cart.slice(-3).reverse(); // recent items
+
+  if (lastThree.length === 0) {
+    wrap.innerHTML = `<div class="empty-cart" style="text-align:center;color:#888;padding:8px 0;">
+      <i class="fas fa-shopping-bag"></i> No recent items
+    </div>`;
+    return;
+  }
+
+  wrap.innerHTML = lastThree
+    .map(
+      item => `
+      <div class="mini-item fade-in">
+        <img src="${item.image}" alt="${item.name}">
+        <div>
+          <div class="mi-name">${item.name}</div>
+          <div class="mi-meta">Qty: ${item.quantity}</div>
+        </div>
+        <div class="mi-price">$${(item.price * item.quantity).toFixed(2)}</div>
+      </div>
+    `
+    )
+    .join('');
+}
+
+// === Mini Cart Toggle (Click) ===
+function setupMiniCartToggle() {
+  const btn = document.getElementById('cart-btn');
+  const panel = document.getElementById('mini-cart');
+  if (!btn || !panel) return;
+
+  btn.addEventListener('click', e => {
+    e.stopPropagation();
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) renderMiniCart();
+  });
+
+  document.addEventListener('click', e => {
+    if (!panel.classList.contains('open')) return;
+    const clickedInside = panel.contains(e.target) || btn.contains(e.target);
+    if (!clickedInside) panel.classList.remove('open');
+  });
+}
+
+// === Initialize Buttons ===
+function setupAddToCartButtons() {
+  const buttons = document.querySelectorAll('.add-to-cart');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.product-card');
+      const item = {
+        id: card.querySelector('.product-title').textContent.replace(/\s+/g, '-').toLowerCase(),
+        name: card.querySelector('.product-title').textContent,
+        price: parseFloat(card.querySelector('.current-price').textContent.replace('$', '')),
+        image: card.querySelector('img').src,
+      };
+      addToCart(item);
     });
-});
+  });
+}
 
-// === Initialize Cart Count on Page Load ===
-document.addEventListener('DOMContentLoaded', updateCartCount);
+// === On Load ===
+document.addEventListener('DOMContentLoaded', () => {
+  setupAddToCartButtons();
+  setupMiniCartToggle();
+  updateCartCount();
+  renderMiniCart();
+});

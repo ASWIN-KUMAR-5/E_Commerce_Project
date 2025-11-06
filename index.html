@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StyleHub - Fashion & Lifestyle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="top-bar">
+                <div class="logo">
+                    <i class="fas fa-gem logo-icon"></i>
+                    <h1>StyleHub</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn about-btn" id="about-btn">
+                        <i class="fas fa-info-circle"></i>
+                        <span>About</span>
+                    </button>
+                    <button class="action-btn login-btn" id="user-btn">
+                        <i class="fas fa-user"></i>
+                        <span>Login</span>
+                    </button>
+                    <a href="cart.html" class="action-btn cart-btn" id="cart-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Cart</span>
+                        <span class="cart-count">0</span>
+                    </a>
+
+                    <button class="action-btn orders-btn" id="orders-btn">
+                        <i class="fas fa-box"></i>
+                        <span>Orders</span>
+                    </button>
+                </div>
+            </div>
+            <div class="search-bar">
+                <div class="search-container">
+                    <input type="text" placeholder="Search for products, brands and more...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Slider -->
+    <section class="hero-slider">
+        <div class="slide active"
+            style="background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+            <div class="slide-content">
+                <h2>Summer Collection 2023</h2>
+                <p>Discover the latest trends in fashion with our exclusive summer collection. Up to 50% off on selected
+                    items.</p>
+                <a href="#" class="btn">Shop Now</a>
+            </div>
+        </div>
+        <div class="slide"
+            style="background-image: url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+            <div class="slide-content">
+                <h2>Luxury Watches</h2>
+                <p>Elegant timepieces that define your style. Limited edition watches with premium craftsmanship.</p>
+                <a href="#" class="btn">Explore Watches</a>
+            </div>
+        </div>
+        <div class="slide"
+            style="background-image: url('https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+            <div class="slide-content">
+                <h2>Beauty & Cosmetics</h2>
+                <p>Enhance your natural beauty with our premium cosmetic collection. Cruelty-free and sustainable.</p>
+                <a href="#" class="btn">Discover Beauty</a>
+            </div>
+        </div>
+        <div class="slide"
+            style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+            <div class="slide-content">
+                <h2>Men's Fashion</h2>
+                <p>Discover the latest trends in men's fashion with our premium collection. Style that speaks volumes.
+                </p>
+                <a href="#" class="btn">Shop Men</a>
+            </div>
+        </div>
+        <div class="slide"
+            style="background-image: url('https://images.unsplash.com/photo-1485231183945-fffde7cb34e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+            <div class="slide-content">
+                <h2>Accessories</h2>
+                <p>Complete your look with our stunning accessories collection. Bags, jewelry, and more.</p>
+                <a href="#" class="btn">Explore Accessories</a>
+            </div>
+        </div>
+        <div class="slide"
+            style="background-image: url('https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+            <div class="slide-content">
+                <h2>Kids Collection</h2>
+                <p>Adorable and comfortable fashion for your little ones. Quality materials for sensitive skin.</p>
+                <a href="#" class="btn">Shop Kids</a>
+            </div>
+        </div>
+        <!-- Additional Advertisement Slides -->
+        <div class="slide"
+            style="background-image: url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+            <div class="slide-content">
+                <h2>Winter Special</h2>
+                <p>Get ready for winter with our cozy collection. Warm clothes at amazing prices.</p>
+                <a href="#" class="btn">Shop Winter</a>
+            </div>
+        </div>
+        <div class="slide"
+            style="background-image: url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');">
+            <div class="slide-content">
+                <h2>Festive Offers</h2>
+                <p>Celebrate the season with our festive collection. Special discounts on traditional wear.</p>
+                <a href="#" class="btn">Explore Offers</a>
+            </div>
+        </div>
+
+        <!-- Slider Navigation Buttons -->
+        <button class="slider-btn prev-btn">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="slider-btn next-btn">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <div class="slider-nav">
+            <div class="slider-dot active"></div>
+            <div class="slider-dot"></div>
+            <div class="slider-dot"></div>
+            <div class="slider-dot"></div>
+            <div class="slider-dot"></div>
+            <div class="slider-dot"></div>
+            <div class="slider-dot"></div>
+            <div class="slider-dot"></div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="container">
+        <div class="section-title">
+            <h2>Shop By Category</h2>
+        </div>
+        <div class="categories">
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                    alt="Women's Fashion">
+                <div class="category-name">Women's Fashion</div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+                    alt="Men's Fashion">
+                <div class="category-name">Men's Fashion</div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1584302179602-e4819bb92daa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+                    alt="Kids Fashion">
+                <div class="category-name">Kids Fashion</div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+                    alt="Accessories">
+                <div class="category-name">Accessories</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Collections Section -->
+    <section class="container popular-collections">
+        <div class="section-title">
+            <h2>Popular Collections</h2>
+        </div>
+
+        <!-- Women's Collections -->
+        <div class="collection-category">
+            <h3>Women's Collections</h3>
+            <div class="collection-slider">
+                <button class="collection-nav collection-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="collection-track" id="women-track">
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                                    alt="Dresses">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Dresses</h4>
+                                <p>From casual to formal</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1582418702059-97ebafb35d09?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                                    alt="Tops">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Tops & Blouses</h4>
+                                <p>Trendy and comfortable</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1506629905607-e48b0e67d879?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                                    alt="Bottoms">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Bottoms</h4>
+                                <p>Jeans, skirts & more</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                                    alt="Activewear">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Activewear</h4>
+                                <p>For your active lifestyle</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+                                    alt="Winter Wear">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Winter Wear</h4>
+                                <p>Cozy and warm collection</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                    alt="Party Wear">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Party Wear</h4>
+                                <p>Elegant and stylish</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="collection-nav collection-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Men's Collections -->
+        <div class="collection-category">
+            <h3>Men's Collections</h3>
+            <div class="collection-slider">
+                <button class="collection-nav collection-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="collection-track" id="men-track">
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1593030103066-0093718efeb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                    alt="Shirts">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Shirts</h4>
+                                <p>Casual and formal</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1473966968600-fa801b869a1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                                    alt="T-Shirts">
+                            </div>
+                            <div class="collection-info">
+                                <h4>T-Shirts</h4>
+                                <p>Comfortable everyday wear</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1026&q=80"
+                                    alt="Pants">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Pants</h4>
+                                <p>Jeans, trousers & more</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=606&q=80"
+                                    alt="Suits">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Suits & Blazers</h4>
+                                <p>For formal occasions</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                    alt="Footwear">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Footwear</h4>
+                                <p>Stylish and comfortable</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                    alt="Accessories">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Accessories</h4>
+                                <p>Belts, wallets & more</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="collection-nav collection-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Kids Collections -->
+        <div class="collection-category">
+            <h3>Kids Collections</h3>
+            <div class="collection-slider">
+                <button class="collection-nav collection-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="collection-track" id="kids-track">
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1519457431-44ccd64a579b?ixlib=rb-4.0.3&auto=format&fit=crop&w=675&q=80"
+                                    alt="Girls Clothing">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Girls Clothing</h4>
+                                <p>Dresses, tops & more</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1584302179602-e4819bb92daa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+                                    alt="Boys Clothing">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Boys Clothing</h4>
+                                <p>Shirts, pants & more</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1594736797933-d0c1382d7afd?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                                    alt="Baby Clothes">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Baby Clothes</h4>
+                                <p>For newborns & toddlers</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1543163521-1bf539c55dd2?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                                    alt="Kids Shoes">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Kids Shoes</h4>
+                                <p>Comfortable and stylish</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1551698618-1dfe5d97d256?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+                                    alt="Toys">
+                            </div>
+                            <div class="collection-info">
+                                <h4>Toys & Games</h4>
+                                <p>Fun and educational</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="collection-item">
+                        <div class="collection-card">
+                            <div class="collection-img">
+                                <img src="https://images.unsplash.com/photo-1584839404047-5f65d5c5b5d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                                    alt="School Supplies">
+                            </div>
+                            <div class="collection-info">
+                                <h4>School Supplies</h4>
+                                <p>Backpacks, stationery & more</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="collection-nav collection-next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- EMI Offer Section -->
+    <section class="container">
+        <div class="emi-offer">
+            <div class="emi-content">
+                <h2>EMI Options Available</h2>
+                <p>Buy now, pay later with 0% interest EMI on all products above $100</p>
+                <a href="#" class="btn">Learn More</a>
+            </div>
+            <div class="emi-image">
+                <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="EMI Offer">
+            </div>
+        </div>
+    </section>
+
+    <!-- Discount Timer -->
+    <section class="container">
+        <div class="discount-timer">
+            <h2>Flash Sale!</h2>
+            <p>Hurry up! Limited time offer ends in:</p>
+            <div class="timer">
+                <div class="timer-item">
+                    <div class="timer-value" id="days">02</div>
+                    <div class="timer-label">Days</div>
+                </div>
+                <div class="timer-item">
+                    <div class="timer-value" id="hours">12</div>
+                    <div class="timer-label">Hours</div>
+                </div>
+                <div class="timer-item">
+                    <div class="timer-value" id="minutes">45</div>
+                    <div class="timer-label">Minutes</div>
+                </div>
+                <div class="timer-item">
+                    <div class="timer-value" id="seconds">30</div>
+                    <div class="timer-label">Seconds</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="container">
+        <div class="section-title">
+            <h2>Featured Products</h2>
+        </div>
+        <div class="products">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                        alt="Elegant Dress">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Elegant Floral Dress</h3>
+                    <div class="product-price">
+                        <span class="current-price">$89.99</span>
+                        <span class="original-price">$129.99</span>
+                    </div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                        alt="Luxury Watch">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Luxury Chronograph Watch</h3>
+                    <div class="product-price">
+                        <span class="current-price">$249.99</span>
+                        <span class="original-price">$299.99</span>
+                    </div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?ixlib=rb-4.0.3&auto=format&fit=crop&w=634&q=80"
+                        alt="Cosmetic Set">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Premium Cosmetic Set</h3>
+                    <div class="product-price">
+                        <span class="current-price">$59.99</span>
+                        <span class="original-price">$79.99</span>
+                    </div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80"
+                        alt="Sport Shoes">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Premium Running Shoes</h3>
+                    <div class="product-price">
+                        <span class="current-price">$129.99</span>
+                        <span class="original-price">$159.99</span>
+                    </div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login/Signup Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Welcome to StyleHub</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="tabs">
+                <div class="tab active" data-tab="login">Login</div>
+                <div class="tab" data-tab="signup">Sign Up</div>
+            </div>
+            <div class="modal-body">
+                <div class="tab-content active" id="login-tab">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="Enter your password">
+                    </div>
+                    <button class="btn" style="width: 100%;">Login</button>
+                    <div class="modal-footer">
+                        <p>Don't have an account? <a href="#" class="switch-tab" data-tab="signup">Sign Up</a></p>
+                    </div>
+                </div>
+                <div class="tab-content" id="signup-tab">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="Create a password">
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm">Confirm Password</label>
+                        <input type="password" id="signup-confirm" placeholder="Confirm your password">
+                    </div>
+                    <button class="btn" style="width: 100%;">Sign Up</button>
+                    <div class="modal-footer">
+                        <p>Already have an account? <a href="#" class="switch-tab" data-tab="login">Login</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page Modal -->
+    <div class="about-modal" id="about-modal">
+        <div class="about-content">
+            <div class="about-header">
+                <h2>About StyleHub</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="about-body">
+                <h2>Our Story</h2>
+                <p>StyleHub was founded in 2018 with a simple mission: to make fashion accessible to everyone. We
+                    believe that style is a form of self-expression, and everyone deserves to feel confident and
+                    beautiful in what they wear.</p>
+
+                <h2>Our Vision</h2>
+                <p>We envision a world where fashion is sustainable, inclusive, and empowering. Our collections are
+                    carefully curated to offer diverse styles that cater to different tastes, body types, and budgets.
+                </p>
+
+                <h2>Our Values</h2>
+                <p>At StyleHub, we're committed to:</p>
+                <ul>
+                    <li>Quality craftsmanship and materials</li>
+                    <li>Ethical manufacturing practices</li>
+                    <li>Inclusive sizing and representation</li>
+                    <li>Customer satisfaction and service</li>
+                    <li>Sustainable fashion initiatives</li>
+                </ul>
+
+                <h2>Our Team</h2>
+                <p>Our team of fashion experts, designers, and customer service professionals work tirelessly to bring
+                    you the latest trends while maintaining our commitment to quality and affordability.</p>
+
+                <h2>Contact Us</h2>
+                <p>Have questions or feedback? We'd love to hear from you! Reach out to our customer service team at
+                    support@stylehub.com or call us at 1-800-STYLE-HUB.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About StyleHub</h3>
+                    <p>StyleHub is your one-stop destination for the latest fashion trends, beauty products, and
+                        lifestyle accessories.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Collections</a></li>
+                        <li><a href="#">Sale</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Shipping Policy</a></li>
+                        <li><a href="#">Return & Refund</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Track Order</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Fashion Street, New York</li>
+                        <li><i class="fas fa-phone"></i> +1 234 567 8900</li>
+                        <li><i class="fas fa-envelope"></i> info@stylehub.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 StyleHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="cart.js"></script>
+
+
+</body>
+</html>

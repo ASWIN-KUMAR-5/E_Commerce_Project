@@ -1,123 +1,121 @@
-// --- Universal Cart System for StyleHub ---
+// === StyleHub Cart System (LocalStorage JSON) ===
 
-// Utility Functions
+// Get cart items from localStorage
 function getCart() {
   return JSON.parse(localStorage.getItem('cartItems')) || [];
 }
 
+// Save updated cart to localStorage
 function saveCart(cart) {
   localStorage.setItem('cartItems', JSON.stringify(cart));
 }
 
-function updateCartCount() {
-  const cart = getCart();
-  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const badge = document.querySelector('.cart-count');
-  if (badge) badge.textContent = count;
-}
+// Render cart items in the cart page
+function renderCart() {
+  const container = document.getElementById('cart-items');
+  const subtotalEl = document.getElementById('subtotal');
+  const shippingEl = document.getElementById('shipping');
+  const discountEl = document.getElementById('discount');
+  const totalEl = document.getElementById('total');
 
-// Add-to-Cart Handler (for all pages except cart.html)
-document.querySelectorAll('.add-to-cart').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    const card = e.target.closest('.product-card');
-    const name = card.querySelector('.product-title').innerText;
-    const price = parseFloat(card.querySelector('.current-price').innerText.replace('$', ''));
-    const image = card.querySelector('img').src;
-    const id = name.split(' ').join('-').toLowerCase();
+  let cart = getCart();
+  container.innerHTML = '';
 
-    let cart = getCart();
-    const existing = cart.find(i => i.id === id);
-
-    if (existing) existing.quantity += 1;
-    else cart.push({ id, name, price, image, quantity: 1 });
-
-    saveCart(cart);
-    updateCartCount();
-
-    btn.textContent = 'Added!';
-    btn.style.backgroundColor = 'var(--success)';
-    setTimeout(() => {
-      btn.textContent = 'Add to Cart';
-      btn.style.backgroundColor = '';
-    }, 1000);
-  });
-});
-
-// --- CART PAGE RENDERING ---
-if (document.getElementById('cart-container')) {
-  const cartContainer = document.getElementById('cart-container');
-  renderCart();
-
-  function renderCart() {
-    let cart = getCart();
-    cartContainer.innerHTML = `<h2 class="cart-title"><i class="fas fa-shopping-bag"></i> Your Cart</h2>`;
-
-    if (cart.length === 0) {
-      cartContainer.innerHTML += `
-        <div class="empty-cart">
-          <i class="fas fa-shopping-cart"></i>
-          <p>Your cart is empty!</p>
-        </div>`;
-      return;
-    }
-
-    let total = 0;
-    cart.forEach(item => {
-      const subtotal = item.price * item.quantity;
-      total += subtotal;
-      cartContainer.innerHTML += `
-        <div class="cart-item">
-          <img src="${item.image}" alt="${item.name}">
-          <div class="item-info">
-            <h3>${item.name}</h3>
-            <p>$${item.price.toFixed(2)}</p>
-          </div>
-          <div class="quantity">
-            <button onclick="updateQuantity('${item.id}', -1)">-</button>
-            <span>${item.quantity}</span>
-            <button onclick="updateQuantity('${item.id}', 1)">+</button>
-          </div>
-          <button class="remove-btn" onclick="removeItem('${item.id}')"><i class="fas fa-trash"></i></button>
-        </div>`;
-    });
-
-    cartContainer.innerHTML += `
-      <div class="cart-summary">
-        <p>Subtotal: $${total.toFixed(2)}</p>
-        <p>Shipping: $${cart.length > 0 ? '10.00' : '0.00'}</p>
-        <h3>Total: $${(total + (cart.length > 0 ? 10 : 0)).toFixed(2)}</h3>
-        <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+  // Empty cart display
+  if (cart.length === 0) {
+    container.innerHTML = `
+      <div class="empty-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <p>Your cart is empty!</p>
+        <a href="index.html" class="btn">Shop Now</a>
       </div>`;
+    subtotalEl.textContent = shippingEl.textContent = discountEl.textContent = totalEl.textContent = '$0.00';
+    return;
   }
 
-  window.updateQuantity = (id, change) => {
-    let cart = getCart();
-    const item = cart.find(i => i.id === id);
-    if (!item) return;
+  // Populate cart items
+  let subtotal = 0;
+  cart.forEach(item => {
+    const itemTotal = item.price * item.quantity;
+    subtotal += itemTotal;
 
-    item.quantity += change;
-    if (item.quantity <= 0) {
-      cart = cart.filter(i => i.id !== id);
-    }
-    saveCart(cart);
-    renderCart();
-    updateCartCount();
-  };
+    container.innerHTML += `
+      <div class="cart-item">
+        <img src="${item.image}" alt="${item.name}">
+        <div class="item-info">
+          <h3>${item.name}</h3>
+          <p>$${item.price.toFixed(2)}</p>
+        </div>
+        <div class="quantity">
+          <button class="qty-btn" onclick="updateQuantity('${item.id}', -1)">-</button>
+          <span>${item.quantity}</span>
+          <button class="qty-btn" onclick="updateQuantity('${item.id}', 1)">+</button>
+        </div>
+        <button class="remove-btn" onclick="removeItem('${item.id}')">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>`;
+  });
 
-  window.removeItem = (id) => {
-    let cart = getCart().filter(i => i.id !== id);
-    saveCart(cart);
-    renderCart();
-    updateCartCount();
-  };
+  // Shipping and discount
+  const shipping = subtotal > 1000 ? 0 : (cart.length > 0 ? 50 : 0);
+  const discount = parseInt(localStorage.getItem('discount')) || 0;
+  const total = subtotal + shipping - discount;
 
-  window.checkout = () => {
-    alert('✅ Checkout Successful! Thank you for shopping with StyleHub 💖');
-    localStorage.removeItem('cartItems');
-    renderCart();
-    updateCartCount();
-  };
+  subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+  shippingEl.textContent = `$${shipping.toFixed(2)}`;
+  discountEl.textContent = `$${discount.toFixed(2)}`;
+  totalEl.textContent = `$${total.toFixed(2)}`;
 }
 
-// Update badge on all pages
-updateCartCount();
+// Update item quantity (+ / -)
+function updateQuantity(id, delta) {
+  let cart = getCart();
+  const item = cart.find(i => i.id === id);
+  if (!item) return;
+
+  item.quantity += delta;
+  if (item.quantity <= 0) {
+    cart = cart.filter(i => i.id !== id);
+  }
+
+  saveCart(cart);
+  renderCart();
+}
+
+// Remove item from cart
+function removeItem(id) {
+  let cart = getCart().filter(i => i.id !== id);
+  saveCart(cart);
+  renderCart();
+}
+
+// Apply coupon discount
+document.getElementById('apply-coupon').addEventListener('click', () => {
+  const code = document.getElementById('coupon-input').value.trim().toUpperCase();
+  const cart = getCart();
+  const subtotal = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+  let discount = 0;
+  if (code === 'STYLE10') discount = Math.floor(subtotal * 0.10);
+  else if (code === 'STYLE20' && subtotal >= 2000) discount = Math.floor(subtotal * 0.20);
+  else return alert('❌ Invalid or ineligible coupon code.');
+
+  localStorage.setItem('discount', discount);
+  alert(`🎉 Coupon applied! You saved $${discount}.`);
+  renderCart();
+});
+
+// Checkout button - place order and clear cart
+document.getElementById('checkout-btn').addEventListener('click', () => {
+  const cart = getCart();
+  if (cart.length === 0) return alert('Your cart is empty.');
+
+  localStorage.removeItem('cartItems');
+  localStorage.removeItem('discount');
+  alert('✅ Order placed successfully! Thank you for shopping with StyleHub 💖');
+  renderCart();
+});
+
+// Render cart when page loads
+document.addEventListener('DOMContentLoaded', renderCart);

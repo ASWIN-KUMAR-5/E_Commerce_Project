@@ -22,12 +22,29 @@
   </header>
 
   <!-- Cart -->
-  <div class="cart-container" id="cart-container">
-    <h2 class="cart-title"><i class="fas fa-shopping-bag"></i> Your Cart</h2>
-    <!-- Items load dynamically via cart.js -->
-  </div>
+<div class="cart-container" id="cart-container">
+  <h2 class="cart-title"><i class="fas fa-shopping-bag"></i> Your Cart</h2>
+  <div id="cart-items"></div>
 
-  <script src="cart.js"></script>
+  <div class="cart-summary">
+    <div class="coupon-section">
+      <input type="text" id="coupon-input" placeholder="Enter Coupon Code">
+      <button id="apply-coupon">Apply</button>
+    </div>
+
+    <p>Subtotal: <span id="subtotal">$0.00</span></p>
+    <p>Shipping: <span id="shipping">$0.00</span></p>
+    <p>Discount: <span id="discount">$0.00</span></p>
+    <h3>Total: <span id="total">$0.00</span></h3>
+
+    <button class="checkout-btn" id="checkout-btn">Proceed to Checkout</button>
+  </div>
+</div>
+
+
+
+
+  <script src="./cart.js"></script>
 </body>
 
 </html>

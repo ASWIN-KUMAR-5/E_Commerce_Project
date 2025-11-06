@@ -217,23 +217,60 @@ function updateTimer() {
 
 setInterval(updateTimer, 1000);
 
-// Add to cart functionality
-const addToCartButtons = document.querySelectorAll('.add-to-cart');
-const cartCount = document.querySelector('.cart-count');
+// === Add to Cart System ===
+const addToCartButtons = document.querySelectorAll(".add-to-cart");
+const cartCountEl = document.querySelector(".cart-count");
 
-addToCartButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        let count = parseInt(cartCount.textContent);
-        count++;
-        cartCount.textContent = count;
+function getCart() {
+  return JSON.parse(localStorage.getItem("cartItems")) || [];
+}
 
-        // Animation effect
-        button.textContent = 'Added!';
-        button.style.backgroundColor = 'var(--success)';
+function saveCart(cart) {
+  localStorage.setItem("cartItems", JSON.stringify(cart));
+}
 
-        setTimeout(() => {
-            button.textContent = 'Add to Cart';
-            button.style.backgroundColor = '';
-        }, 1500);
-    });
+function updateCartCount() {
+  const cart = getCart();
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  if (cartCountEl) cartCountEl.textContent = totalItems;
+}
+
+// Add item to cart
+addToCartButtons.forEach((button, index) => {
+  button.addEventListener("click", () => {
+    const productCard = button.closest(".product-card");
+    const product = {
+      id: `p${index + 1}`,
+      name: productCard.querySelector(".product-title").textContent,
+      price: parseFloat(
+        productCard.querySelector(".current-price").textContent.replace("$", "")
+      ),
+      image: productCard.querySelector("img").src,
+      quantity: 1,
+    };
+
+    let cart = getCart();
+    const existing = cart.find((i) => i.id === product.id);
+
+    if (existing) {
+      existing.quantity++;
+    } else {
+      cart.push(product);
+    }
+
+    saveCart(cart);
+    updateCartCount();
+
+    // Button animation feedback
+    button.textContent = "Added!";
+    button.style.backgroundColor = "var(--success)";
+    setTimeout(() => {
+      button.textContent = "Add to Cart";
+      button.style.backgroundColor = "";
+    }, 1500);
+  });
 });
+
+// Update count on load
+document.addEventListener("DOMContentLoaded", updateCartCount);
+window.addEventListener("storage", updateCartCount);
